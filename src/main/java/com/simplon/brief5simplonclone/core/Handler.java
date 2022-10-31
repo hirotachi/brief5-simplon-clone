@@ -1,10 +1,11 @@
-package com.simplon.brief5simplonclone.controllers;
+package com.simplon.brief5simplonclone.core;
 
 import com.simplon.brief5simplonclone.annotations.Param;
 import com.simplon.brief5simplonclone.annotations.QueryParam;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,7 +38,7 @@ public class Handler {
             Parameter[] parameters = this.method.getParameters();
             Object[] args = new Object[parameters.length];
             Pattern pattern = Pattern.compile(path);
-            Matcher matcher = pattern.matcher(request.getRequestURI());
+            Matcher matcher = pattern.matcher(Controllers.normalizePath(request.getRequestURI()));
             if (!matcher.find()) return;
 
 
@@ -49,12 +50,21 @@ public class Handler {
                     args[i] = request;
                 } else if (type == HttpServletResponse.class) {
                     args[i] = response;
+                } else if (type == Response.class) {
+                    args[i] = new Response(response, request);
+
                 } else {
                     Annotation[] annotations = parameter.getAnnotations();
                     for (Annotation annotation : annotations) {
                         if (annotation instanceof Param) {
                             String name = ((Param) annotation).value();
-                            Object value = matcher.group(name);
+                            Object value;
+                            try {
+                                value = matcher.group(name);
+                            } catch (Exception e) {
+                                response.sendError(500, "Invalid path parameter " + name + " for path " + path + " in method " + method.getName());
+                                return;
+                            }
                             args[i] = parse(value, type);
                             continue;
                         }
@@ -80,13 +90,23 @@ public class Handler {
                 }
             }
             this.method.invoke(instance, args);
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
-                 NoSuchMethodException e) {
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException |
+                 IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static Object parse(Object value, Class<?> type) {
+        if (value == null || value.toString().isEmpty()) {
+            return switch (type.getSimpleName()) {
+                case "int" -> 0;
+                case "long" -> 0L;
+                case "float" -> 0.0f;
+                case "double" -> 0.0;
+                case "boolean" -> false;
+                default -> null;
+            };
+        }
         if (type == String.class) {
             return value;
         }

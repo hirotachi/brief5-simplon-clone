@@ -1,9 +1,10 @@
-package com.simplon.brief5simplonclone.controllers;
+package com.simplon.brief5simplonclone.core;
 
 
 import com.simplon.brief5simplonclone.annotations.Controller;
 import com.simplon.brief5simplonclone.annotations.Handler;
 import com.simplon.brief5simplonclone.annotations.Methods;
+import com.simplon.brief5simplonclone.controllers.AuthController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -14,7 +15,7 @@ import java.util.HashMap;
 public class Controllers {
 
     private static final Class<?>[] controllers = new Class<?>[]{AuthController.class};
-    private static final HashMap<Methods, HashMap<String, com.simplon.brief5simplonclone.controllers.Handler>> routesByMethod = new HashMap<>();
+    private static final HashMap<Methods, HashMap<String, com.simplon.brief5simplonclone.core.Handler>> routesByMethod = new HashMap<>();
 
     public static void load() {
         for (Class<?> controller : controllers) {
@@ -31,14 +32,17 @@ public class Controllers {
                 }
                 String path = normalizePath(handler.path());
                 String fullPath = controllerPath + path;
-                HashMap<String, com.simplon.brief5simplonclone.controllers.Handler> routes = routesByMethod.computeIfAbsent(handler.method(), k -> new HashMap<>());
-                routes.put(fullPath, new com.simplon.brief5simplonclone.controllers.Handler(method, fullPath));
+                HashMap<String, com.simplon.brief5simplonclone.core.Handler> routes = routesByMethod.computeIfAbsent(handler.method(), k -> new HashMap<>());
+                routes.put(fullPath, new com.simplon.brief5simplonclone.core.Handler(method, fullPath));
             }
         }
 
+        System.out.println("Routes loaded");
+        System.out.println(routesByMethod);
+
     }
 
-    private static String normalizePath(String path) {
+    public static String normalizePath(String path) {
         if (path.endsWith("/")) {
             path = path.substring(0, path.length() - 1);
         }
@@ -53,7 +57,7 @@ public class Controllers {
     }
 
     public static void handle(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        com.simplon.brief5simplonclone.controllers.Handler handler = getMethod(request);
+        com.simplon.brief5simplonclone.core.Handler handler = getMethod(request);
         if (handler == null) {
 //            todo: add default handler for errors
             response.sendError(404);
@@ -62,15 +66,19 @@ public class Controllers {
         handler.run(request, response);
     }
 
-    private static com.simplon.brief5simplonclone.controllers.Handler getMethod(HttpServletRequest request) {
-        String path = request.getRequestURI();
+    private static com.simplon.brief5simplonclone.core.Handler getMethod(HttpServletRequest request) {
+        String path = normalizePath(request.getRequestURI());
         Methods method = Methods.valueOf(request.getMethod());
-        HashMap<String, com.simplon.brief5simplonclone.controllers.Handler> routes = routesByMethod.get(method);
-        for (String route : routes.keySet()) {
-            if (!path.matches(route)) continue;
-            return routes.get(route);
+        HashMap<String, com.simplon.brief5simplonclone.core.Handler> routes = routesByMethod.get(method);
+        com.simplon.brief5simplonclone.core.Handler handler = routes.get(path);
+        if (handler == null) {
+            for (String route : routes.keySet()) {
+                if (path.matches(route) || path.equals(route)) {
+                    handler = routes.get(route);
+                }
+            }
         }
-        return null;
+        return handler;
     }
 
 }

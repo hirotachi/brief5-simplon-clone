@@ -1,6 +1,6 @@
 package com.simplon.brief5simplonclone.servlets;
 
-import com.simplon.brief5simplonclone.controllers.Controllers;
+import com.simplon.brief5simplonclone.core.Controllers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,12 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/*")
-public class HelloServlet extends HttpServlet {
-    private String message;
-
+@WebServlet(name = "RootServlet", value = "/*")
+public class RootServlet extends HttpServlet {
     public void init() {
-        message = "nice world nice";
         Controllers.load();
     }
 
@@ -22,8 +19,5 @@ public class HelloServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Controllers.handle(req, resp);
-    }
-
-    public void destroy() {
     }
 }
