@@ -11,6 +11,9 @@
     <title>Login page</title>
 </head>
 <body>
-<p>welcome to login page nice</p>
+<p>welcome to login page
+    <%=request.getAttribute("name") %>
+
+</p>
 </body>
 </html>

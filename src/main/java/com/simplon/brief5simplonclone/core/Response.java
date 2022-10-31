@@ -1,6 +1,7 @@
 package com.simplon.brief5simplonclone.core;
 
 import com.simplon.brief5simplonclone.utils.JSON;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -48,7 +49,10 @@ public class Response {
     }
 
     public void render(String view, HashMap<String, Object> data) throws IOException, ServletException {
-        request.getRequestDispatcher("pages/" + view + ".jsp").forward(request, response);
+        String path = "/WEB-INF/pages/" + view + ".jsp";
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
+        data.forEach(request::setAttribute);
+        requestDispatcher.forward(request, response);
     }
 
     public void redirect(String path) throws IOException {
