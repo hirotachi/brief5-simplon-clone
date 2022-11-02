@@ -10,6 +10,6 @@ public class Auth implements Middleware {
 
     public boolean handle(HttpServletRequest request, Response response) throws IOException {
         System.out.println("Auth middleware");
-        return false;
+        return true;
     }
 }

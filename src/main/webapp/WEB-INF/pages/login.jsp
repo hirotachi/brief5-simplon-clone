@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Login page</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/styles/login.css" type="text/css">
 </head>
 <body>
 <div>welcome to login page
