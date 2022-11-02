@@ -69,4 +69,9 @@ public class Response {
         response.getWriter().println(JSON.stringify(object));
     }
 
+    public Response status(int status) {
+        response.setStatus(status);
+        return this;
+    }
+
 }

@@ -33,7 +33,13 @@ public class Controllers {
                 String path = normalizePath(handler.path());
                 String fullPath = controllerPath + path;
                 HashMap<String, com.simplon.brief5simplonclone.core.Handler> routes = routesByMethod.computeIfAbsent(handler.method(), k -> new HashMap<>());
-                routes.put(fullPath, new com.simplon.brief5simplonclone.core.Handler(method, fullPath));
+                Class<? extends Middleware>[] middlewares = new Class[]{};
+                com.simplon.brief5simplonclone.annotations.Middleware middlewareAn =
+                        method.getAnnotation(com.simplon.brief5simplonclone.annotations.Middleware.class);
+                if (middlewareAn != null) {
+                    middlewares = middlewareAn.value();
+                }
+                routes.put(fullPath, new com.simplon.brief5simplonclone.core.Handler(method, fullPath, middlewares));
             }
         }
 

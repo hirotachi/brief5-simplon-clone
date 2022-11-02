@@ -11,9 +11,22 @@
     <title>Login page</title>
 </head>
 <body>
-<p>welcome to login page
+<div>welcome to login page
     <%=request.getAttribute("name") %>
 
-</p>
+    <% if (request.getAttribute("auth") != null) { %>
+    <form action="logout" method="post">
+        <input type="submit" value="logout">
+    </form>
+    <% } else { %>
+    <form action="login" method="post">
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <input type="submit" value="login">
+    </form>
+    <% } %>
+
+
+</div>
 </body>
 </html>

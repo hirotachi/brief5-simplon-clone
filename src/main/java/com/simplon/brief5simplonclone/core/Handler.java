@@ -13,13 +13,17 @@ import java.lang.reflect.Parameter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Handler {
     private final Method method;
     private final String path;
+    private final Class<? extends Middleware>[] middlewares;
 
-    public Handler(Method method, String path) {
+
+    public Handler(Method method, String path, Class<? extends Middleware>[] middlewares) {
         this.method = method;
         this.path = path;
+        this.middlewares = middlewares;
     }
 
     public Method getMethod() {
@@ -31,15 +35,33 @@ public class Handler {
     }
 
     public void run(HttpServletRequest request, HttpServletResponse response) {
-        Class<?> aClass = this.method.getDeclaringClass();
         try {
-
+            Class<?> aClass = this.method.getDeclaringClass();
             Object instance = aClass.getConstructor().newInstance();
-            Parameter[] parameters = this.method.getParameters();
+            Object[] args = getParsedArgs(this.method, request, response);
+            boolean pass = true;
+            for (Class<? extends Middleware> middleware : middlewares) {
+                Method middlewareMethod = middleware.getMethod("handle", HttpServletRequest.class, Response.class);
+                Middleware obj = middleware.getConstructor().newInstance();
+                pass = (boolean) middlewareMethod.invoke(obj, getParsedArgs(middlewareMethod, request, response));
+                if (!pass) return;
+            }
+            this.method.invoke(instance, args);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public Object[] getParsedArgs(Method method, HttpServletRequest request, HttpServletResponse response) {
+        Class<?> aClass = method.getDeclaringClass();
+        try {
+            Parameter[] parameters = method.getParameters();
             Object[] args = new Object[parameters.length];
             Pattern pattern = Pattern.compile(path);
             Matcher matcher = pattern.matcher(Controllers.normalizePath(request.getRequestURI()));
-            if (!matcher.find()) return;
+            if (!matcher.find()) return null;
 
 
             for (int i = 0; i < parameters.length; i++) {
@@ -63,7 +85,7 @@ public class Handler {
                                 value = matcher.group(name);
                             } catch (Exception e) {
                                 response.sendError(500, "Invalid path parameter " + name + " for path " + path + " in method " + method.getName());
-                                return;
+                                return null;
                             }
                             args[i] = parse(value, type);
                             continue;
@@ -83,17 +105,17 @@ public class Handler {
                             if (value == null) {
                                 value = queryParam.defaultValue();
                             }
-
                             args[i] = parse(value, type);
                         }
                     }
                 }
             }
-            this.method.invoke(instance, args);
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException |
-                 IOException e) {
+            return args;
+        } catch (
+                IOException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public static Object parse(Object value, Class<?> type) {
