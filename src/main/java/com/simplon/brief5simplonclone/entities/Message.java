@@ -1,5 +1,6 @@
 package com.simplon.brief5simplonclone.entities;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,19 +27,23 @@ import java.sql.Timestamp;
 public class Message {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
+  @Basic
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
+  @Basic
   @Column(name = "updated_at", nullable = false)
   private Timestamp updatedAt;
 
+  @Basic
   @Column(name = "deleted_at")
   private Timestamp deletedAt;
   //  Main ==============================================
+  @Basic
   @Column(name = "data", nullable = false)
   private String data;
 

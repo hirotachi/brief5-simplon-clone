@@ -5,6 +5,7 @@
   version="3.0">
   <persistence-unit name="default">
     <class>com.simplon.brief5simplonclone.entities.User</class>
+    <class>com.simplon.brief5simplonclone.entities.ProfilesEntity</class>
 
     <properties>
       <property name="hibernate.connection.url"

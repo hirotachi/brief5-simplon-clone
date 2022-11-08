@@ -1,5 +1,6 @@
 package com.simplon.brief5simplonclone.entities;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,56 +43,72 @@ import java.util.List;
 public class Brief {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
+  @Basic
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
+  @Basic
   @Column(name = "updated_at", nullable = false)
   private Timestamp updatedAt;
 
+  @Basic
   @Column(name = "deleted_at")
   private Timestamp deletedAt;
 
   //  Main ==============================================
+  @Basic
   @Column(name = "name", nullable = false)
   private String name;
 
+  @Basic
   @Column(name = "description")
   private String description;
 
+  @Basic
   @Column(name = "context")
   private String context;
 
+  @Basic
   @Column(name = "language", nullable = false)
   private Integer language;
 
+  @Basic
   @Column(name = "image")
   private String image;
 
+  @Basic
   @Column(name = "technologies")
   private Object technologies;
 
+  @Basic
   @Column(name = "frameworks")
   private Object frameworks;
 
+  @Basic
   @Column(name = "deliverables")
   private Object deliverables;
 
+  @Basic
   @Column(name = "assessment_methods")
   private Object assessmentMethods;
 
+  @Basic
   @Column(name = "learning_methods")
   private Object learningMethods;
 
+  @Basic
   @Column(name = "performance_criteria")
   private String performanceCriteria;
 
+  @Basic
   @Column(name = "deadline")
   private Timestamp deadline;
 
+  @Basic
   @Column(name = "skills")
   private String skills;
 

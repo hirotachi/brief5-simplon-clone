@@ -26,7 +26,7 @@ public class AuthController {
   public void login(Response response, @Param("name") String name)
       throws IOException, ServletException {
 
-    response.send(new Object[]{userService.getAll(), briefService.getAll()});
+    response.send(userService.getAll());
   }
 
   @Handler(path = "/register", method = Methods.POST)

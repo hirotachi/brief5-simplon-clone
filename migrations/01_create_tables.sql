@@ -9,18 +9,10 @@ create table if not exists users
     deleted_at   timestamp,
     last_read_at timestamp          not null default now(),
     role         integer            not null default 3, -- 1: admin, 2: formatteur, 3: apprenant
-    banned       boolean            not null default false
+    banned       boolean            not null default false,
+    image        varchar(255)
 );
 
-create table if not exists profiles
-(
-    id         serial primary key not null,
-    user_id    integer            not null references users (id) on delete cascade,
-    created_at timestamp          not null default now(),
-    updated_at timestamp          not null default now(),
-    deleted_at timestamp,
-    image      varchar(255)
-);
 
 
 create table if not exists promotions

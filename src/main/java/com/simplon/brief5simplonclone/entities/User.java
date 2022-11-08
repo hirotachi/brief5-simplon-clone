@@ -1,6 +1,6 @@
 package com.simplon.brief5simplonclone.entities;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,11 +8,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.List;
 
 //create table if not exists users
 //    (
@@ -32,50 +30,60 @@ import java.util.HashSet;
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
+  @Basic
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
+  @Basic
   @Column(name = "updated_at", nullable = false)
   private Timestamp updatedAt;
 
+  @Basic
   @Column(name = "deleted_at")
   private Timestamp deletedAt;
 //  Main ==============================================
 
+  @Basic
   @Column(name = "name", nullable = false)
   private String name;
 
+  @Basic
   @Column(name = "email", nullable = false, unique = true)
   private String email;
 
+  @Basic
   @Column(name = "password", nullable = false)
-  private String password;
+  private transient String password;
 
 
+  @Basic
   @Column(name = "last_read_at", nullable = false)
   private Timestamp lastReadAt;
 
+  @Basic
   @Column(name = "role", nullable = false)
   private Integer role;
 
+  @Basic
   @Column(name = "banned", nullable = false)
   private boolean banned;
+
+  @Basic
+  @Column(name = "image")
+  private String image;
 
 //  Relations ========================================
 
   @OneToMany(mappedBy = "teacher")
-  private HashSet<Promotion> teachersPromotions;
+  private List<Promotion> teachersPromotions;
 
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  @PrimaryKeyJoinColumn
-  private Profile profile;
 
   @ManyToMany(mappedBy = "students")
-  private HashSet<Promotion> studentsPromotions;
+  private List<Promotion> studentsPromotions;
 
   //  Setters ==========================================
 
@@ -108,15 +116,12 @@ public class User {
     this.banned = banned;
   }
 
-  public void setTeachersPromotions(HashSet<Promotion> teachersPromotions) {
+  public void setTeachersPromotions(List<Promotion> teachersPromotions) {
     this.teachersPromotions = teachersPromotions;
   }
 
-  public void setProfile(Profile profile) {
-    this.profile = profile;
-  }
 
-  public void setStudentsPromotions(HashSet<Promotion> studentsPromotions) {
+  public void setStudentsPromotions(List<Promotion> studentsPromotions) {
     this.studentsPromotions = studentsPromotions;
   }
 
@@ -163,15 +168,12 @@ public class User {
     return banned;
   }
 
-  public HashSet<Promotion> getTeachersPromotions() {
+  public List<Promotion> getTeachersPromotions() {
     return teachersPromotions;
   }
 
-  public Profile getProfile() {
-    return profile;
-  }
 
-  public HashSet<Promotion> getStudentsPromotions() {
+  public List<Promotion> getStudentsPromotions() {
     return studentsPromotions;
   }
 }

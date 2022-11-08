@@ -1,5 +1,6 @@
 package com.simplon.brief5simplonclone.entities;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,23 +32,28 @@ import java.util.HashSet;
 public class Promotion {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
+  @Basic
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
+  @Basic
   @Column(name = "updated_at", nullable = false)
   private Timestamp updatedAt;
 
+  @Basic
   @Column(name = "deleted_at")
   private Timestamp deletedAt;
 
   //  Main ==============================================
+  @Basic
   @Column(name = "name", nullable = false)
   private String name;
 
+  @Basic
   @Column(name = "year", nullable = false)
   private Integer year;
 
