@@ -1,5 +1,6 @@
 package com.simplon.brief5simplonclone.entities;
 
+import com.simplon.brief5simplonclone.annotations.Exclude;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,7 +58,8 @@ public class User {
 
   @Basic
   @Column(name = "password", nullable = false)
-  private transient String password;
+  @Exclude
+  private String password;
 
 
   @Basic

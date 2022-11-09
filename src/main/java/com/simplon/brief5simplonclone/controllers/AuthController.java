@@ -11,6 +11,7 @@ import com.simplon.brief5simplonclone.entities.User;
 import com.simplon.brief5simplonclone.services.Service;
 import jakarta.servlet.ServletException;
 import java.io.IOException;
+import java.util.List;
 
 @Controller()
 public class AuthController {
@@ -26,7 +27,9 @@ public class AuthController {
   public void login(Response response, @Param("name") String name)
       throws IOException, ServletException {
 
-    response.send(userService.getAll());
+    List<User> all = userService.getAll();
+    System.out.println(all.get(0).getPassword());
+    response.send(all);
   }
 
   @Handler(path = "/register", method = Methods.POST)
