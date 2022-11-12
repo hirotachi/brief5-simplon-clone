@@ -39,20 +39,23 @@ public class Handler {
     try {
       Class<?> aClass = this.method.getDeclaringClass();
       Object instance = Dependency.getInstance(aClass);
-      Object[] args = getParsedArgs(this.method, request, response);
       boolean pass = true;
       for (Class<? extends Middleware> middleware : middlewares) {
         Method middlewareMethod = middleware.getMethod("handle", HttpServletRequest.class,
             Response.class);
-        Middleware obj = middleware.getConstructor().newInstance();
+        Middleware obj = Dependency.getInstance(middleware);
         pass = (boolean) middlewareMethod.invoke(obj,
             getParsedArgs(middlewareMethod, request, response));
         if (!pass) {
           return;
         }
       }
+      Object[] args = getParsedArgs(this.method, request, response);
+      if (args == null) {
+        return;
+      }
       this.method.invoke(instance, args);
-    } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+    } catch (IllegalAccessException | InvocationTargetException |
              NoSuchMethodException e) {
       throw new RuntimeException(e);
     }
@@ -94,6 +97,7 @@ public class Handler {
                 response.sendError(500,
                     "Invalid path parameter " + name + " for path " + path + " in method "
                         + method.getName());
+                e.printStackTrace();
                 return null;
               }
               args[i] = parse(value, type);
