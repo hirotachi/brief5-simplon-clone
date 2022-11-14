@@ -2,24 +2,55 @@
 
 <%--                                list of members--%>
 <div x-data="{open: true}">
-    <div class="bg-white  py-5 border-b border-gray-200 ">
-        <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
-            <div class="ml-4 mt-2">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">Members</h3>
+    <%--    <div class="bg-white  py-5 border-b border-gray-200 ">--%>
+    <%--        <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">--%>
+    <%--            <div class="ml-4 mt-2">--%>
+    <%--                <h3 class="text-lg leading-6 font-medium text-gray-900">Members</h3>--%>
+    <%--            </div>--%>
+    <%--            <div class="ml-4 mt-2 flex-shrink-0"--%>
+    <%--                 @closeForm="console.log('hello in here')">--%>
+    <%--                <button type="button"--%>
+    <%--                        @click="open = !open"--%>
+    <%--                        class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">--%>
+    <%--                    New member--%>
+    <%--                </button>--%>
+    <%--                <c:import url="/WEB-INF/components/membersForm.jsp"/>--%>
+    <%--            </div>--%>
+    <%--        </div>--%>
+    <%--    </div>--%>
+    <c:set var="currentSection" value="${requestScope.get('section')}"/>
+
+
+    <div class="pb-5 border-b border-gray-200 sm:pb-0">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Members</h3>
+        <div class="mt-3 sm:mt-4">
+            <!-- Dropdown menu on small screens -->
+            <div class="sm:hidden">
+                <label for="current-tab" class="sr-only">Select a tab</label>
+                <select id="current-tab" name="current-tab"
+                        class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                    <c:forEach items="${['all', 'teachers', 'students']}" var="tab">
+                        <option
+                                value="${tab}">${tab}</option>
+                    </c:forEach>
+                </select>
             </div>
-            <div class="ml-4 mt-2 flex-shrink-0"
-                 @closeForm="console.log('hello in here')">
-                <button type="button"
-                        @click="open = !open"
-                        class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    New member
-                </button>
-                <c:import url="/WEB-INF/components/membersForm.jsp"/>
+            <!-- Tabs at small breakpoint and up -->
+            <div class="hidden sm:block">
+                <nav class="-mb-px flex space-x-8">
+                    <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" -->
+                    <c:forEach items="${['all', 'teachers', 'students']}" var="tab">
+                        <c:set var="link"
+                               value="${tab == 'all' ? '/' : '/?section='}${tab == 'all' ? '' : tab}"/>
+                        <a href="${link}"
+                           class="${currentSection == tab ? 'border-indigo-500 text-indigo-600 ' : ''}border-transparent capitalize text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm ">${tab}</a>
+                    </c:forEach>
+                </nav>
             </div>
         </div>
     </div>
     <div class="flex flex-col">
-        <div class="-my-2  sm:-mx-6 lg:-mx-8">
+        <div class="-my-2 sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class=" overflow-hidden border border-gray-200">
                     <table class="min-w-full divide-y divide-gray-200">

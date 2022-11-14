@@ -29,7 +29,6 @@
                                     id="modal-title">Create Member</h3>
                                 <div class="mt-2">
 
-                                    <%--                form for email/username/role--%>
                                     <form action="#" method="POST"
                                           @submit.prevent="createMember(form, (newOpen) => {open = newOpen})">
                                         <div class="overflow-hidden min-w-full">
