@@ -27,9 +27,6 @@ public class AuthController {
   @Middleware(UnAuthenticated.class)
   public void login(Response response)
       throws IOException, ServletException {
-
-//     check if user is logged in and redirect to home if he is
-
     response.render("login", new HashMap<>(Map.of("name", "working")));
   }
 
