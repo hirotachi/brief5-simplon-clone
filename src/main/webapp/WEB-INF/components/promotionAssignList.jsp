@@ -1,4 +1,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script>
+  const assignStudentToPromo = (memberId, promotionId) => {
+    const url = `<c:url value="/users/${memberId}?promotionId=${promotionId}"/>`;
+    console.log(url);
+  }
+</script>
 <div x-data="{open: false, search: ''}" @mousedown.outside="open = false">
     <div class="relative mt-1">
         <input x-model="search" id="combobox" type="text"
@@ -20,7 +26,8 @@
             <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                 id="options" role="listbox">
                 <c:forEach items="${requestScope.promotions}" var="promotion">
-                    <li x-data="{hovered: false}"
+                    <li @click="window.location.href = '/users/'+ memberId + '?promotionId=${promotion.id}'"
+                        x-data="{hovered: false,assigned: promotions.some( promo => promo === ${promotion.getId()})}"
                         x-show="search === '' || '${promotion.getName()}'.toLowerCase().includes(search.toLowerCase())"
                         @mouseenter="hovered = true"
                         @mouseleave="hovered = false"
@@ -39,7 +46,8 @@
 
                         </div>
 
-                        <template x-if="true">
+                        <template
+                                x-if="assigned">
                             <span
                                     class="absolute inset-y-0 right-0 flex items-center pr-4 "
                                     :class="{'text-white': hovered, 'text-indigo-600': !hovered}">

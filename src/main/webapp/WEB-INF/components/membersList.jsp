@@ -98,7 +98,8 @@
                                         </div>
                                     </td>
                                     <c:if test="${isTeacher}">
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4 whitespace-nowrap"
+                                            x-data="{promotions: ${member.getStudentsPromotions()}, memberId: ${member.getId()}}">
                                             <c:import
                                                     url="/WEB-INF/components/promotionAssignList.jsp"/>
                                         </td>

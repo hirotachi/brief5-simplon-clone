@@ -29,7 +29,7 @@ import java.util.List;
 //    )
 @Entity
 @Table(name = "promotions")
-public class Promotion {
+public class Promotion extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -138,5 +138,10 @@ public class Promotion {
 
   public List<User> getStudents() {
     return students;
+  }
+
+  @Override
+  public String toString() {
+    return id.toString();
   }
 }

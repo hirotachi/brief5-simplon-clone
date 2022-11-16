@@ -191,6 +191,7 @@ public class User extends BaseEntity {
     return studentsPromotions;
   }
 
+  
   public List<Brief> getTeacherBriefs() {
     return teacherBriefs;
   }

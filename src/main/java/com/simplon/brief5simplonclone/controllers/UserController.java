@@ -8,17 +8,22 @@ import com.simplon.brief5simplonclone.annotations.Middleware;
 import com.simplon.brief5simplonclone.annotations.Param;
 import com.simplon.brief5simplonclone.annotations.QueryParam;
 import com.simplon.brief5simplonclone.core.Response;
+import com.simplon.brief5simplonclone.entities.Promotion;
 import com.simplon.brief5simplonclone.entities.User;
 import com.simplon.brief5simplonclone.middleware.Admin;
 import com.simplon.brief5simplonclone.middleware.Staff;
 import com.simplon.brief5simplonclone.services.Service;
 import java.io.IOException;
+import java.util.List;
 
 @Controller("/users")
 public class UserController {
 
   @Inject
   private Service<User> userService;
+
+  @Inject
+  private Service<Promotion> promotionService;
 
   @Handler(path = "/", method = Methods.POST)
   @Middleware(Admin.class)
@@ -42,10 +47,25 @@ public class UserController {
     System.out.println("delete user with id: " + id);
   }
 
-  @Handler(path = "/{id}", method = Methods.PUT)
+  @Handler(path = "/{id}")
   @Middleware(Staff.class)
-  public void update(@Param("id") int id) {
-    System.out.println("update user " + id);
+  public void update(Response response, @Param("id") int id,
+      @QueryParam("promotionId") int promotionId)
+      throws IOException {
+    User user = userService.findById(id);
+    Promotion promotion = promotionService.findById(promotionId);
+    List<Promotion> promotions = user.getStudentsPromotions();
+    boolean exists = promotions.contains(promotion);
+    if (!exists) {
+      promotions.add(promotion);
+    } else {
+      promotions.remove(promotion);
+    }
+    user.setStudentsPromotions(promotions);
+    boolean update = userService.update(user);
+
+    response.status(update ? 200 : 500).redirect("/");
+
   }
 
 
