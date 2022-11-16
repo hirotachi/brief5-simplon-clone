@@ -70,7 +70,7 @@
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
                                 </th>
-                                <c:if test="${!isTeacher}">
+                                <c:if test="${isTeacher}">
                                     <th scope="col"
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Promotion
@@ -97,7 +97,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <c:if test="${!isTeacher}">
+                                    <c:if test="${isTeacher}">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <c:import
                                                     url="/WEB-INF/components/promotionAssignList.jsp"/>

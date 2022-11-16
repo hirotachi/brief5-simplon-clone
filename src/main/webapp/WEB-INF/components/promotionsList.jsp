@@ -7,12 +7,12 @@
   }
 </script>
 
-<div x-data="{open: false , currentPromotion: undefined}">
+<div x-data="{open: false , currentPromotion: undefined, search: ''}">
     <c:import url="/WEB-INF/components/promotionForm.jsp"/>
     <div>
         <label for="search" class="block text-sm font-medium text-gray-700">Promotions</label>
         <div class="mt-1 relative flex items-center">
-            <input type="text" name="search" id="search"
+            <input x-model="search" type="text" name="search" id="search"
                    style="padding: .5rem; border: 1px solid #e2e8f0; border-radius: 0.25rem; width: 100%;"
                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md">
             <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
@@ -27,6 +27,7 @@
             <c:forEach items="${requestScope.promotions}" var="promotion">
 
                 <li class="py-4"
+                    x-show="search === '' || promotion.name.toLowerCase().includes(search.toLowerCase())"
                     x-data="{promotion:
                     {name: '${promotion.getName()}',
                      year: ${promotion.getYear()},
