@@ -31,8 +31,7 @@
                     {name: '${promotion.getName()}',
                      year: ${promotion.getYear()},
                       id: ${promotion.getId()},
-                      teacher: {name: '${promotion.getTeacher().getName()}', id: ${promotion.getTeacher().getId()}}
-
+                      teacher: {name: '${promotion.getTeacher().getName()}', id: ${promotion.getTeacher() != null ? promotion.getTeacher().getId() : 0}}
                     }}">
                     <div class="flex items-center space-x-4">
                         <div class="flex-1 min-w-0">

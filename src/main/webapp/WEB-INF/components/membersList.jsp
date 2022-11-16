@@ -3,6 +3,7 @@
 <%--                                list of members--%>
 <c:set var="currentSection" value="${requestScope.get('section')}"/>
 <c:set var="sections" value="${['all', 'teachers', 'students']}"/>
+<c:set var="roles" value="${['admin', 'teacher', 'student']}"/>
 <c:set var="isTeacher" value="${sessionScope.user.getRole() == 2}"/>
 <c:set var="isAdmin" value="${sessionScope.user.getRole() == 1}"/>
 
@@ -80,9 +81,7 @@
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Role
                                 </th>
-                                <th scope="col" class="relative px-6 py-3">
-                                    <span class="sr-only">Edit</span>
-                                </th>
+
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -105,12 +104,8 @@
                                         </td>
                                     </c:if>
 
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        Admin
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="#"
-                                           class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
+                                            ${roles[member.getRole() - 1]}
                                     </td>
                                 </tr>
                             </c:forEach>

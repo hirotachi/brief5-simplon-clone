@@ -36,11 +36,11 @@ public class User extends BaseEntity {
   private Long id;
 
   @Basic
-  @Column(name = "created_at", nullable = false)
+  @Column(name = "created_at")
   private Timestamp createdAt;
 
   @Basic
-  @Column(name = "updated_at", nullable = false)
+  @Column(name = "updated_at")
   private Timestamp updatedAt;
 
   @Basic
@@ -63,7 +63,7 @@ public class User extends BaseEntity {
 
 
   @Basic
-  @Column(name = "last_read_at", nullable = false)
+  @Column(name = "last_read_at")
   private Timestamp lastReadAt;
 
   @Basic

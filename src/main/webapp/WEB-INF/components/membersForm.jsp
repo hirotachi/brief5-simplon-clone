@@ -1,7 +1,20 @@
 <script defer>
   const createMember = (data, close) => {
-    console.log("createMember", data);
-    close(false);
+    const formData = new FormData();
+    Object.keys(data).forEach(key => formData.append(key, data[key]));
+    fetch("/users", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        close();
+        window.location.reload();
+      }
+    });
   }
   const initialFormState = {
     name: "",
@@ -29,29 +42,28 @@
                                     id="modal-title">Create Member</h3>
                                 <div class="mt-2">
 
-                                    <form action="#" method="POST"
-                                          @submit.prevent="createMember(form, (newOpen) => {open = newOpen})">
+                                    <form x-ref="form" action="/users" method="POST">
                                         <div class="overflow-hidden min-w-full">
                                             <div class=" px-1 py-5 sm:p-6">
                                                 <div class="flex gap-6 flex-col">
                                                     <div>
-                                                        <label for="first-name"
+                                                        <label for="name"
                                                                class="block text-sm font-medium text-gray-700">
                                                             Full name</label>
                                                         <input x-model="form.name" type="text"
-                                                               name="first-name"
-                                                               id="first-name"
+                                                               name="name"
+                                                               id="name"
                                                                autocomplete="given-name"
                                                                class="mt-1 w-100 block w-full p-2 rounded-md bg-gray-50 shadow  focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                                     </div>
 
                                                     <div class="col-span-6 sm:col-span-4">
-                                                        <label for="email-address"
+                                                        <label for="email"
                                                                class="block text-sm font-medium text-gray-700">Email
                                                             address</label>
                                                         <input x-model="form.email" type="text"
-                                                               name="email-address"
-                                                               id="email-address"
+                                                               name="email"
+                                                               id="email"
                                                                autocomplete="email"
                                                                class="mt-1 w-100 block w-full p-2 rounded-md bg-gray-50 shadow  focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                                     </div>
@@ -67,11 +79,11 @@
                                                     </div>
 
                                                     <div class="col-span-6 sm:col-span-3">
-                                                        <label for="country"
+                                                        <label for="role"
                                                                class="block text-sm font-medium text-gray-700">Role</label>
                                                         <select x-model.number="form.role"
-                                                                id="country"
-                                                                name="country"
+                                                                id="role"
+                                                                name="role"
                                                                 autocomplete="country-name"
                                                                 class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                                             <option value="1">Admin</option>
@@ -93,7 +105,7 @@
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                         <button type="button"
-                                @click="createMember(form, (newOpen) => {open = newOpen})"
+                                @click="$refs.form.submit()"
                                 class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                             Create
                         </button>

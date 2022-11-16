@@ -41,8 +41,9 @@ open = newOpen;
                                     id="modal-title"></h3>
                                 <div class="mt-2">
 
-                                    <form action="#" method="POST"
-                                          @submit.prevent="!!currentPromotion ? updatePromotion(currentPromotion,form, updateOpen):createPromotion(form, updateOpen)">
+                                    <form x-ref="form"
+                                          :action="currentPromotion ? '/promotions/'+currentPromotion.id : '/promotions'"
+                                          method="POST">
                                         <div class="overflow-hidden min-w-full">
                                             <div class=" px-1 py-5 sm:p-6">
                                                 <div class="flex gap-6 flex-col">
@@ -68,13 +69,13 @@ open = newOpen;
                                                     </div>
                                                     <template x-if="currentPromotion">
                                                         <div class="col-span-6 sm:col-span-3">
-                                                            <label for="country"
+                                                            <label for="teacher"
                                                                    class="block text-sm font-medium text-gray-700">Teacher</label>
                                                             <select x-model.number="form.teacher"
                                                                     :disabled="${requestScope.teachers.size() == 0}"
-                                                                    id="country"
-                                                                    name="country"
-                                                                    autocomplete="country-name"
+                                                                    id="teacher"
+                                                                    name="teacher"
+                                                                    autocomplete="teacher-id"
                                                                     class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
                                                                 <c:forEach
                                                                         items="${requestScope.teachers}"
@@ -98,7 +99,7 @@ open = newOpen;
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                         <button x-text="currentPromotion ? 'Update': 'Create'" type="button"
-                                @click="!!currentPromotion ? updatePromotion(currentPromotion,form, updateOpen):createPromotion(form, updateOpen)"
+                                @click="$refs.form.submit()"
                                 class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
 
                         </button>

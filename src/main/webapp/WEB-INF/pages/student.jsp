@@ -11,6 +11,6 @@
     <title>Simplon - Student</title>
 </head>
 <body>
-
+<p>student page</p>
 </body>
 </html>
