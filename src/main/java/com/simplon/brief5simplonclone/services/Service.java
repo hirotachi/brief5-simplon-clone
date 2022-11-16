@@ -37,12 +37,18 @@ public class Service<T> {
     return this.getAll(null, null);
   }
 
-  public List<T> find(HashMap<String, Object> params, Integer limit, Integer offset) {
-    StringBuilder query = new StringBuilder("SELECT e FROM " + this.entityName + " e WHERE ");
-    for (String key : params.keySet()) {
-      query.append("e.").append(key).append(" = :").append(key).append(" AND ");
+  public List<T> find(HashMap<String, Object> params, Integer limit, Integer offset,
+      String operator) {
+    StringBuilder query = new StringBuilder("SELECT e FROM " + this.entityName + " e");
+    if (params.size() > 0) {
+      query.append(" WHERE ");
     }
-    query = new StringBuilder(query.substring(0, query.length() - 5));
+    for (String key : params.keySet()) {
+      query.append("e.").append(key).append(" ").append(operator).append(" :").append(key)
+          .append(" AND ");
+    }
+    query = new StringBuilder(
+        query.substring(0, query.length() - (params.keySet().size() == 0 ? 0 : 5)));
     TypedQuery<T> typedQuery = em.createQuery(query.toString(), this.clazz);
     for (String key : params.keySet()) {
       typedQuery.setParameter(key, params.get(key));
@@ -56,12 +62,24 @@ public class Service<T> {
     return typedQuery.getResultList();
   }
 
-  public List<T> find(HashMap<String, Object> params) {
-    return this.find(params, null, null);
+  public List<T> findBy(HashMap<String, Object> params, Integer limit, Integer offset) {
+    return this.find(params, null, null, "=");
+  }
+
+  public List<T> findNotBy(HashMap<String, Object> params, Integer limit, Integer offset) {
+    return this.find(params, null, null, "!=");
+  }
+
+  public List<T> findNotBy(HashMap<String, Object> params) {
+    return this.find(params, null, null, "!=");
+  }
+
+  public List<T> findBy(HashMap<String, Object> params) {
+    return this.findBy(params, null, null);
   }
 
   public T findOne(HashMap<String, Object> params) {
-    List<T> result = this.find(params, 1, 0);
+    List<T> result = this.findBy(params, 1, 0);
     if (result.size() > 0) {
       return result.get(0);
     }

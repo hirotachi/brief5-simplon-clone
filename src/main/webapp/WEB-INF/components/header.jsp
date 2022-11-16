@@ -1,4 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <header class="pb-24 bg-primaryColor">
+    <c:set var="roles" value="${['Admin', 'Teacher', 'Student']}"/>
+
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div class="relative py-5 flex items-center justify-center lg:justify-between">
             <!-- Logo -->
@@ -16,8 +20,12 @@
 
 
                 <!-- Profile dropdown -->
-                <div class="ml-4 relative flex-shrink-0" x-data="{open: false}">
-                    <div @click="open = !open">
+                <div class="ml-4 relative flex-shrink-0" x-data="{open: false}"
+                     @mousedown.outside="open = false">
+                    <div @click="open = !open" class="flex gap-2">
+                        <p class="text-white ">${sessionScope.user.getName()} <span
+                                class="text-xs text-white-50">(${roles[sessionScope.user.getRole() - 1]})</span>
+                        </p>
                         <button type="button"
                                 class="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100"
                                 id="user-menu-button" aria-expanded="false"
@@ -51,7 +59,7 @@
                     >
 
                         <!-- Active: "bg-gray-100", Not Active: "" -->
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700"
+                        <a href="/logout" class="block px-4 py-2 text-sm text-gray-700"
                            role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
                     </div>
                 </div>

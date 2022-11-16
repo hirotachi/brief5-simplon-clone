@@ -5,6 +5,7 @@ import com.simplon.brief5simplonclone.annotations.QueryParam;
 import com.simplon.brief5simplonclone.utils.Dependency;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -57,6 +58,7 @@ public class Handler {
       this.method.invoke(instance, args);
     } catch (IllegalAccessException | InvocationTargetException |
              NoSuchMethodException e) {
+      e.getStackTrace();
       throw new RuntimeException(e);
     }
 
@@ -78,7 +80,9 @@ public class Handler {
         Parameter parameter = parameters[i];
         Class<?> type = parameter.getType();
 
-        if (type == HttpServletRequest.class) {
+        if (type == HttpSession.class) {
+          args[i] = request.getSession();
+        } else if (type == HttpServletRequest.class) {
           args[i] = request;
         } else if (type == HttpServletResponse.class) {
           args[i] = response;

@@ -40,7 +40,7 @@ import java.util.List;
 //    );
 @Entity
 @Table(name = "briefs")
-public class Brief {
+public class Brief extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <%--
   Created by IntelliJ IDEA.
   User: said
@@ -9,7 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Simplon - Admin</title>
+    <title>Simplon - Teacher</title>
     <c:import url="/WEB-INF/components/scripts.jsp"/>
 </head>
 <body>
@@ -37,7 +39,7 @@
                     <section aria-labelledby="section-2-title">
                         <h2 class="sr-only" id="section-2-title">Section title</h2>
                         <div class="p-6 shadow rounded-medium">
-                            <c:import url="/WEB-INF/components/promotionsList.jsp"/>
+                            <c:import url="/WEB-INF/components/briefsList.jsp"/>
                         </div>
                     </section>
                 </div>

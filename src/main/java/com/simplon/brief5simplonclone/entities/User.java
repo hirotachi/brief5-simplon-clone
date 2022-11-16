@@ -28,7 +28,7 @@ import java.util.List;
 //    );
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,44 +87,56 @@ public class User {
   @ManyToMany(mappedBy = "students")
   private List<Promotion> studentsPromotions;
 
+  @OneToMany(mappedBy = "teacher")
+  private List<Brief> teacherBriefs;
+
   //  Setters ==========================================
 
 
-  public void setDeletedAt(Timestamp deletedAt) {
+  public User setDeletedAt(Timestamp deletedAt) {
     this.deletedAt = deletedAt;
+    return this;
   }
 
-  public void setName(String name) {
+  public User setName(String name) {
     this.name = name;
+    return this;
   }
 
-  public void setEmail(String email) {
+  public User setEmail(String email) {
     this.email = email;
+    return this;
   }
 
-  public void setPassword(String password) {
+  public User setPassword(String password) {
     this.password = password;
+    return this;
   }
 
-  public void setLastReadAt(Timestamp lastReadAt) {
+  public User setLastReadAt(Timestamp lastReadAt) {
     this.lastReadAt = lastReadAt;
+    return this;
   }
 
-  public void setRole(Integer role) {
+  public User setRole(Integer role) {
     this.role = role;
+    return this;
   }
 
-  public void setBanned(boolean banned) {
+  public User setBanned(boolean banned) {
     this.banned = banned;
+    return this;
   }
 
-  public void setTeachersPromotions(List<Promotion> teachersPromotions) {
+  public User setTeachersPromotions(List<Promotion> teachersPromotions) {
     this.teachersPromotions = teachersPromotions;
+    return this;
   }
 
 
-  public void setStudentsPromotions(List<Promotion> studentsPromotions) {
+  public User setStudentsPromotions(List<Promotion> studentsPromotions) {
     this.studentsPromotions = studentsPromotions;
+    return this;
   }
 
   //  Getters ==========================================
@@ -177,5 +189,9 @@ public class User {
 
   public List<Promotion> getStudentsPromotions() {
     return studentsPromotions;
+  }
+
+  public List<Brief> getTeacherBriefs() {
+    return teacherBriefs;
   }
 }

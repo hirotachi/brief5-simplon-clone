@@ -24,7 +24,8 @@ import java.sql.Timestamp;
 //    );
 @Entity
 @Table(name = "briefs_messages")
-public class Message {
+public class Message extends BaseEntity {
+
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

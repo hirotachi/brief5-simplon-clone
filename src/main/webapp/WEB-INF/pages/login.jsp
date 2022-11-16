@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: said
@@ -9,9 +10,7 @@
 <html>
 <head>
     <title>Simplon - Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    </script>
+    <c:import url="/WEB-INF/components/scripts.jsp"/>
 </head>
 <body>
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -47,7 +46,7 @@
 
                 <div>
                     <button type="submit"
-                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primaryColor hover:bg-primaryColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryColor">
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-600">
                         Sign in
                     </button>
                 </div>

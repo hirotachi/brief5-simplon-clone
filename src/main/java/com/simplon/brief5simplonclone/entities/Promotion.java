@@ -15,7 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.List;
 
 //create table if not exists promotions
 //    (
@@ -64,13 +64,13 @@ public class Promotion {
   private User teacher;
 
   @OneToMany(mappedBy = "promotion", fetch = FetchType.LAZY)
-  private HashSet<Brief> briefs;
+  private List<Brief> briefs;
 
   @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
   @JoinTable(name = "users_promotions",
       joinColumns = {@JoinColumn(name = "promotion_id")},
       inverseJoinColumns = {@JoinColumn(name = "user_id")})
-  private HashSet<User> students;
+  private List<User> students;
 
 //  Setters ================================================
 
@@ -78,24 +78,29 @@ public class Promotion {
     this.deletedAt = deletedAt;
   }
 
-  public void setName(String name) {
+  public Promotion setName(String name) {
     this.name = name;
+    return this;
   }
 
-  public void setYear(Integer year) {
+  public Promotion setYear(Integer year) {
     this.year = year;
+    return this;
   }
 
-  public void setTeacher(User teacher) {
+  public Promotion setTeacher(User teacher) {
     this.teacher = teacher;
+    return this;
   }
 
-  public void setBriefs(HashSet<Brief> briefs) {
+  public Promotion setBriefs(List<Brief> briefs) {
     this.briefs = briefs;
+    return this;
   }
 
-  public void setStudents(HashSet<User> students) {
+  public Promotion setStudents(List<User> students) {
     this.students = students;
+    return this;
   }
 
   //  Getters ================================================
@@ -127,11 +132,11 @@ public class Promotion {
     return teacher;
   }
 
-  public HashSet<Brief> getBriefs() {
+  public List<Brief> getBriefs() {
     return briefs;
   }
 
-  public HashSet<User> getStudents() {
+  public List<User> getStudents() {
     return students;
   }
 }

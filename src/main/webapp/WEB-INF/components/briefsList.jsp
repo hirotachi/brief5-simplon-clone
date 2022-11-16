@@ -2,15 +2,15 @@
 
 
 <script>
-  const removePromotion = (promotionId) => {
-    console.log("removePromotion " + promotionId);
+  const removeBrief = (briefId) => {
+    console.log("removeBrief " + briefId);
   }
 </script>
 
-<div x-data="{open: false , currentPromotion: undefined}">
-    <c:import url="/WEB-INF/components/promotionForm.jsp"/>
+<div x-data="{open: false , currentBrief: undefined}">
+    <c:import url="/WEB-INF/components/briefsForm.jsp"/>
     <div>
-        <label for="search" class="block text-sm font-medium text-gray-700">Promotions</label>
+        <label for="search" class="block text-sm font-medium text-gray-700">Briefs</label>
         <div class="mt-1 relative flex items-center">
             <input type="text" name="search" id="search"
                    style="padding: .5rem; border: 1px solid #e2e8f0; border-radius: 0.25rem; width: 100%;"
@@ -24,44 +24,32 @@
     </div>
     <div class="flow-root mt-6">
         <ul role="list" class="-my-5 divide-y divide-gray-200">
-            <c:forEach items="${requestScope.promotions}" var="promotion">
-
+            <c:forEach items="${requestScope.briefs}" var="brief">
                 <li class="py-4"
-                    x-data="{promotion:
-                    {name: '${promotion.getName()}',
-                     year: ${promotion.getYear()},
-                      id: ${promotion.getId()},
-                      teacher: {name: '${promotion.getTeacher().getName()}', id: ${promotion.getTeacher().getId()}}
-
-                    }}">
+                    x-data='{brief: ${brief}}'>
                     <div class="flex items-center space-x-4">
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900 truncate">${promotion.getName()}
-                                <span class="text-gray-500 font-normal">- ${promotion.getYear()}</span>
+                            <p class="text-sm font-medium text-gray-900 truncate">${brief.getName()}
+                                <span class="text-gray-500 font-normal">- ${brief.getCreatedAt()}</span>
                             </p>
-                            <c:if test="${promotion.getTeacher() != null}">
-                                <p
-                                        x-text="promotion.teacher.name"
-                                        class="text-sm text-gray-500 truncate">
-                                </p>
-                            </c:if>
                         </div>
                         <div>
                             <button type="button"
-                                    @click="removePromotion(${promotion.getId() == null ? 0 : promotion.getId()})"
+                                    @click="removeBrief(${brief.getId() == null ? 0 : brief.getId()})"
                                     class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 <ion-icon name="trash-outline"></ion-icon>
                             </button>
-                                <%--                             button to assign a teacher in indigo-500--%>
                             <button type="button"
-                                    @click="currentPromotion = promotion"
+                                    @click="currentBrief = brief"
                                     class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                <ion-icon name="person-add-outline"></ion-icon>
+                                <ion-icon name="create-outline"></ion-icon>
                             </button>
                         </div>
                     </div>
                 </li>
             </c:forEach>
+
+
         </ul>
     </div>
     <div class="mt-6">
@@ -69,7 +57,7 @@
                 @click="open = true"
                 class="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm rounded-md font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             Create
-            promotion
+            Brief
         </button>
     </div>
 </div>
