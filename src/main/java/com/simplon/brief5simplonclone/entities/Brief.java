@@ -40,7 +40,7 @@ import java.util.List;
 //    );
 @Entity
 @Table(name = "briefs")
-public class Brief extends BaseEntity {
+public class Brief {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -118,8 +118,7 @@ public class Brief extends BaseEntity {
   @JoinColumn(name = "user_id", nullable = false)
   private User teacher;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE,
-      CascadeType.PERSIST, CascadeType.REFRESH})
+  @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
   @JoinColumn(name = "promotion_id", nullable = false)
   private Promotion promotion;
 
@@ -129,68 +128,84 @@ public class Brief extends BaseEntity {
 //  Setters ===========================================
 
 
-  public void setDeletedAt(Timestamp deletedAt) {
+  public Brief setDeletedAt(Timestamp deletedAt) {
     this.deletedAt = deletedAt;
+    return this;
   }
 
-  public void setName(String name) {
+  public Brief setName(String name) {
     this.name = name;
+    return this;
   }
 
-  public void setDescription(String description) {
+  public Brief setDescription(String description) {
     this.description = description;
+    return this;
   }
 
-  public void setContext(String context) {
+  public Brief setContext(String context) {
     this.context = context;
+    return this;
   }
 
-  public void setLanguage(Integer language) {
+  public Brief setLanguage(Integer language) {
     this.language = language;
+    return this;
   }
 
-  public void setImage(String image) {
+  public Brief setImage(String image) {
     this.image = image;
+    return this;
   }
 
-  public void setTechnologies(Object technologies) {
+  public Brief setTechnologies(Object technologies) {
     this.technologies = technologies;
+    return this;
   }
 
-  public void setFrameworks(Object frameworks) {
+  public Brief setFrameworks(Object frameworks) {
     this.frameworks = frameworks;
+    return this;
   }
 
-  public void setDeliverables(Object deliverables) {
+  public Brief setDeliverables(Object deliverables) {
     this.deliverables = deliverables;
+    return this;
   }
 
-  public void setAssessmentMethods(Object assessmentMethods) {
+  public Brief setAssessmentMethods(Object assessmentMethods) {
     this.assessmentMethods = assessmentMethods;
+    return this;
   }
 
-  public void setLearningMethods(Object learningMethods) {
+  public Brief setLearningMethods(Object learningMethods) {
     this.learningMethods = learningMethods;
+    return this;
   }
 
-  public void setPerformanceCriteria(String performanceCriteria) {
+  public Brief setPerformanceCriteria(String performanceCriteria) {
     this.performanceCriteria = performanceCriteria;
+    return this;
   }
 
-  public void setDeadline(Timestamp deadline) {
+  public Brief setDeadline(Timestamp deadline) {
     this.deadline = deadline;
+    return this;
   }
 
-  public void setSkills(String skills) {
+  public Brief setSkills(String skills) {
     this.skills = skills;
+    return this;
   }
 
-  public void setTeacher(User teacher) {
+  public Brief setTeacher(User teacher) {
     this.teacher = teacher;
+    return this;
   }
 
-  public void setPromotion(Promotion promotion) {
+  public Brief setPromotion(Promotion promotion) {
     this.promotion = promotion;
+    return this;
   }
 
 //  Getters ===========================================

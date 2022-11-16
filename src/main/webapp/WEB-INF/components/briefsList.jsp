@@ -29,9 +29,7 @@
                     x-data='{brief: ${brief}}'>
                     <div class="flex items-center space-x-4">
                         <div class="flex-1 min-w-0">
-                            <p class="text-sm font-medium text-gray-900 truncate">${brief.getName()}
-                                <span class="text-gray-500 font-normal">- ${brief.getCreatedAt()}</span>
-                            </p>
+                            <p class="text-sm font-medium text-gray-900 truncate">${brief.getName()}</p>
                         </div>
                         <div>
                             <button type="button"

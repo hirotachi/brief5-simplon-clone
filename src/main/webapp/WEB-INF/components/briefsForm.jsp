@@ -41,8 +41,7 @@ open = newOpen;
                                     id="modal-title"></h3>
                                 <div class="mt-2">
 
-                                    <form action="#" method="POST"
-                                          @submit.prevent="!!currentBrief ? updateBrief(currentBrief,form, updateOpen):createBrief(form, updateOpen)">
+                                    <form x-ref="form" action="/briefs" method="POST">
                                         <div class="overflow-hidden min-w-full">
                                             <div class=" px-1 py-5 sm:p-6">
                                                 <div class="flex gap-6 flex-col">
@@ -80,7 +79,7 @@ open = newOpen;
                     </div>
                     <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                         <button x-text="currentBrief ? 'Update': 'Create'" type="button"
-                                @click="!!currentBrief ? updateBrief(currentBrief,form, updateOpen):createBrief(form, updateOpen)"
+                                @click="$refs.form.submit()"
                                 class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm">
                         </button>
                         <button type="button" @click="close()"
